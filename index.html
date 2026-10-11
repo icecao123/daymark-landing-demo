@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daymark — AI work planner · Demo Landing</title>
+<meta name="description" content="Daymark is a fictional AI work planner. This is a demonstration landing page concept by TablePilot Studio — all content is illustrative.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231E8F7B'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23F7F8F5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%231E8F7B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5;
+  --card:#FFFFFF;
+  --ink:#1F2421;
+  --ink-2:#5A625C;
+  --ink-3:#8A918A;
+  --teal:#1E8F7B;
+  --teal-d:#14695A;
+  --sage:#E4ECE4;
+  --sage-2:#D4E2D6;
+  --line:rgba(31,36,33,.14);
+  --line-2:rgba(31,36,33,.07);
+  --radius:14px;
+  --shadow:0 20px 50px rgba(20,30,26,.10);
+  --sans:'Instrument Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  --disp:'Space Grotesk','Instrument Sans',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:84px 0}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-d)}
+.kicker::before{content:"";width:20px;height:2px;background:var(--teal);display:inline-block}
+h1,h2,h3{font-family:var(--disp);letter-spacing:-.015em;line-height:1.12}
+h2{font-size:clamp(30px,4.6vw,46px);margin:16px 0 18px;font-weight:600}
+.sec-intro{max-width:640px;color:var(--ink-2);font-size:16.5px}
+.sec-head{max-width:680px;margin-bottom:52px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head.center .kicker::after{content:"";width:20px;height:2px;background:var(--teal);display:inline-block}
+.sec-head.center .kicker::before{display:none}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13.5px;font-weight:500;padding:12px 20px;border-radius:10px;box-shadow:var(--shadow);opacity:0;visibility:hidden;transition:all .3s;z-index:200;white-space:nowrap}
+.toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:100;background:rgba(247,248,245,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .dot{width:22px;height:22px;border-radius:7px;background:var(--teal);display:inline-flex;align-items:center;justify-content:center}
+.brand .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 2.5px var(--teal)}
+.brand span b{font-weight:600}
+.brand small{font-size:9.5px;font-weight:600;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;margin-left:2px}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink-2);padding:5px 0;position:relative;transition:color .2s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--teal);transition:width .25s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:600;font-size:14px;letter-spacing:.01em;padding:11px 20px;border-radius:999px;border:1px solid transparent;transition:all .22s}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-d);transform:translateY(-1px);box-shadow:0 10px 22px rgba(30,143,123,.28)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal-d)}
+.btn-lg{padding:14px 26px;font-size:15px}
+.btn-sm{padding:9px 16px;font-size:13px}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:9px;width:42px;height:42px;color:var(--ink);font-size:20px;align-items:center;justify-content:center}
+@media (max-width:860px){
+  .menu-btn{display:inline-flex}
+  .nav-links{position:fixed;top:66px;left:0;right:0;background:var(--paper);flex-direction:column;align-items:flex-start;gap:2px;padding:14px 22px 22px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .32s ease;box-shadow:0 30px 40px rgba(31,36,33,.08)}
+  .nav-links.open{transform:none}
+  .nav-links li{width:100%}
+  .nav-links a{display:block;padding:12px 0;font-size:16px;border-bottom:1px solid var(--line-2)}
+  .nav-cta .btn{display:none}
+  .nav-cta .menu-btn{display:inline-flex}
+}
+
+/* ---------- hero ---------- */
+.hero{padding:76px 0 88px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:46px;align-items:center}
+@media (min-width:900px){.hero-grid{grid-template-columns:1.04fr .96fr;gap:56px}}
+.hero h1{font-size:clamp(40px,6.4vw,68px);font-weight:600;margin:20px 0 20px;letter-spacing:-.02em}
+.hero h1 .accent{color:var(--teal-d);position:relative;white-space:nowrap}
+.hero p{color:var(--ink-2);font-size:17px;max-width:470px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 16px}
+.hero-note{font-size:12px;color:var(--ink-3);letter-spacing:.02em}
+.hero-note b{color:var(--teal-d);font-weight:600}
+
+/* app mockup */
+.mock{position:relative}
+.mock-frame{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.mock-top{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line-2);background:#FBFCFA}
+.mock-top .brand{font-size:15px}
+.mock-top .brand small{font-size:8.5px}
+.mock-day{font-size:12.5px;color:var(--ink-3);font-weight:500}
+.mock-body{padding:20px 18px 22px;display:grid;gap:14px}
+.mock-title{display:flex;justify-content:space-between;align-items:baseline}
+.mock-title h4{font-family:var(--disp);font-size:17px;font-weight:600}
+.mock-title span{font-size:12px;color:var(--teal-d);font-weight:600}
+.task{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--line-2);border-radius:12px;background:#FCFDFB}
+.task .t-time{font-size:12px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.task .t-name{font-size:14px;font-weight:500}
+.task .t-sub{font-size:12px;color:var(--ink-3)}
+.task .t-state{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
+.t-done .t-state{background:var(--sage);color:var(--teal-d)}
+.t-active{background:#F2F8F4;border-color:rgba(30,143,123,.4)}
+.t-active .t-state{background:var(--teal);color:#fff}
+.t-up .t-state{background:var(--paper);color:var(--ink-3)}
+.ai-card{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);border-radius:12px;padding:15px 17px;color:#fff}
+.ai-card .ai-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:4px 9px;border-radius:999px;margin-bottom:9px}
+.ai-card p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.95)}
+.mock-foot{display:flex;align-items:center;justify-content:space-between;padding-top:13px;border-top:1px solid var(--line-2)}
+.ring{position:relative;width:56px;height:56px}
+.ring svg{transform:rotate(-90deg)}
+.ring .ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:13px;font-weight:600;color:var(--teal-d)}
+.mock-foot .lbl{font-size:12.5px;color:var(--ink-2)}
+.mock-float{position:absolute;top:-16px;right:-12px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 15px;display:flex;align-items:center;gap:11px;font-size:12.5px;font-weight:500;color:var(--ink)}
+.mock-float .f-ic{width:30px;height:30px;border-radius:9px;background:var(--sage);display:flex;align-items:center;justify-content:center;color:var(--teal-d)}
+@media (max-width:900px){.mock-float{display:none}}
+
+/* ---------- logo strip ---------- */
+.strip{border-block:1px solid var(--line);background:#FBFCFA;padding:30px 0}
+.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px 42px}
+.strip .cap{font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);width:100%;text-align:center;margin-bottom:6px}
+.strip .lg{font-family:var(--disp);font-weight:600;font-size:17px;color:#A6ADA6;letter-spacing:.01em;user-select:none}
+@media (min-width:900px){.strip .cap{width:auto;text-align:left;margin:0}}
+
+/* ---------- features ---------- */
+.features{background:var(--paper)}
+.f-grid{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+@media (min-width:760px){.f-grid{grid-template-columns:1fr 1fr}}
+.f-item{padding:34px 30px;border-bottom:1px solid var(--line-2);background:var(--card)}
+.f-item:nth-child(even){background:#FBFCFA}
+@media (min-width:760px){
+  .f-item:nth-child(n+3){border-bottom:0}
+  .f-item:nth-child(odd){border-right:1px solid var(--line-2)}
+  .f-item:nth-child(even){background:var(--card)}
+  .f-item:nth-child(4n+2),.f-item:nth-child(4n+3){background:#FBFCFA}
+}
+.f-ic{width:44px;height:44px;border-radius:12px;background:var(--sage);color:var(--teal-d);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.f-item h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.f-item p{font-size:14.5px;color:var(--ink-2);max-width:380px}
+.f-item .demo-tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin-top:14px}
+
+/* ---------- process ---------- */
+.process{background:var(--card);border-block:1px solid var(--line)}
+.p-grid{display:grid;grid-template-columns:1fr;gap:46px;align-items:center}
+@media (min-width:900px){.p-grid{grid-template-columns:1fr 1fr;gap:64px}}
+.p-img{position:relative}
+.p-img img{border-radius:var(--radius);box-shadow:var(--shadow);width:100%;aspect-ratio:3/2;object-fit:cover}
+.p-img::after{content:"demo";position:absolute;bottom:14px;left:14px;background:rgba(31,36,33,.78);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.steps{display:grid;gap:0}
+.step{display:grid;grid-template-columns:46px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line-2)}
+.step:last-child{border-bottom:0}
+.step-num{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;font-size:15px;color:var(--teal-d)}
+.step h3{font-size:18px;font-weight:600;margin-bottom:5px}
+.step p{font-size:14.5px;color:var(--ink-2)}
+
+/* ---------- stats ---------- */
+.stats{background:var(--ink);color:#E8EDE9}
+.stats .wrap{display:grid;grid-template-columns:1fr;gap:34px;text-align:center}
+@media (min-width:760px){.stats .wrap{grid-template-columns:repeat(3,1fr);text-align:left}}
+.stat b{font-family:var(--disp);font-size:clamp(34px,5vw,52px);font-weight:600;color:#fff;display:block;line-height:1}
+.stat b span{color:var(--teal)}
+.stat .lbl{font-size:13px;color:#A9B4AC;margin-top:10px}
+.stat .demo{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7A857C;margin-top:6px}
+
+/* ---------- pricing ---------- */
+.pricing{background:var(--paper)}
+.bill{display:inline-flex;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:38px}
+.bill button{border:none;background:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink-2);padding:8px 18px;border-radius:999px;transition:all .2s}
+.bill button.on{background:var(--ink);color:#fff}
+.p-grid2{display:grid;grid-template-columns:1fr;gap:18px;max-width:960px;margin:0 auto}
+@media (min-width:820px){.p-grid2{grid-template-columns:repeat(3,1fr)}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s}
+.plan:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.plan.featured{border-color:var(--teal);position:relative;background:linear-gradient(180deg,#F5FAF7 0%,var(--card) 40%)}
+.plan .p-name{font-family:var(--disp);font-weight:600;font-size:16px}
+.plan .p-desc{font-size:13.5px;color:var(--ink-2);margin:6px 0 20px;min-height:42px}
+.plan .p-price{display:flex;align-items:baseline;gap:6px;margin-bottom:22px}
+.plan .p-price b{font-family:var(--disp);font-size:38px;font-weight:600;letter-spacing:-.02em}
+.plan .p-price span{font-size:13px;color:var(--ink-3)}
+.plan ul{list-style:none;display:grid;gap:11px;margin-bottom:28px;flex:1}
+.plan ul li{display:flex;gap:10px;font-size:14px;color:var(--ink-2);align-items:flex-start}
+.plan ul li::before{content:"";width:16px;height:16px;flex-shrink:0;margin-top:3px;background:var(--sage);border-radius:50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2 6.6 10.8 12 5.4' fill='none' stroke='%231E8F7B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:10px;background-position:center;background-repeat:no-repeat}
+.plan .btn{width:100%}
+.plan .btn-out{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.plan .btn-out:hover{border-color:var(--teal);color:var(--teal-d)}
+
+/* ---------- cta ---------- */
+.cta{position:relative;padding:0}
+.cta .band{position:relative;border-radius:24px;overflow:hidden;background:var(--sage);margin:0 22px;max-width:1120px}
+@media (min-width:900px){.cta .band{margin:0 auto}}
+.cta .band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.cta .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(228,236,228,.9) 0%,rgba(228,236,228,.96) 100%)}
+.cta .inner{position:relative;z-index:2;padding:76px 28px;text-align:center;max-width:640px;margin:0 auto}
+.cta h2{color:var(--ink)}
+.cta p{color:var(--ink-2);font-size:16px;margin-bottom:30px}
+.sub-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.sub-form input{flex:1;min-width:230px;padding:13px 18px;border:1px solid var(--line);border-radius:999px;font-family:inherit;font-size:15px;background:rgba(255,255,255,.9);color:var(--ink)}
+.sub-form input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(30,143,123,.16)}
+.cta .note{font-size:11.5px;color:var(--ink-3);margin-top:14px}
+
+/* ---------- footer ---------- */
+footer{background:var(--paper);border-top:1px solid var(--line);padding:56px 0 0;margin-top:84px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:36px;padding-bottom:40px}
+@media (min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr;gap:44px}}
+.foot-grid h4{font-family:var(--disp);font-size:14px;font-weight:600;margin-bottom:14px}
+.foot-grid a{display:block;font-size:14px;color:var(--ink-2);padding:5px 0;transition:color .2s}
+.foot-grid a:hover{color:var(--teal-d)}
+.foot-brand{font-family:var(--disp);font-weight:600;font-size:19px;display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.foot-brand .dot{width:20px;height:20px;border-radius:7px;background:var(--teal)}
+.foot-copy{font-size:13.5px;color:var(--ink-2);max-width:340px;line-height:1.7}
+.demo-banner{margin-top:18px;border:1px solid rgba(30,143,123,.35);background:rgba(30,143,123,.07);border-radius:10px;padding:12px 15px;font-size:12.5px;color:var(--teal-d);line-height:1.7}
+.maker{background:#F1F3EF;border-top:1px solid var(--line-2);color:var(--ink-3);text-align:center;font-size:12px;letter-spacing:.05em;padding:16px 0}
+.maker b{color:var(--teal-d);font-weight:600}
+
+/* utils */
+.center{text-align:center}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="brand"><span class="dot"></span><span><b>Daymark</b><small>Demo</small></span></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#process">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-primary btn-sm" data-cta="header">Get started</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="kicker">AI work planner · fictional</span>
+        <h1>A clear plan for <span class="accent">every workday.</span></h1>
+        <p>Daymark turns scattered tasks, meetings and documents into one calm, daily plan — automatically prioritised by your AI assistant.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" data-cta="hero">Start free demo</button>
+          <a class="btn btn-ghost btn-lg" href="#process">See how it works</a>
+        </div>
+        <p class="hero-note">Demonstration concept by <b>TablePilot Studio</b> — product, numbers and pricing are illustrative.</p>
+      </div>
+      <div class="mock" aria-label="Daymark app preview (illustrative)">
+        <div class="mock-frame">
+          <div class="mock-top">
+            <span class="brand"><span class="dot"></span><span><b>Daymark</b><small>Demo</small></span></span>
+            <span class="mock-day">Tue · 06 Oct</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-title"><h4>Today's plan</h4><span>4 of 6 blocks</span></div>
+            <div class="task t-done">
+              <span class="t-time">09:30</span>
+              <div><div class="t-name">Team standup</div><div class="t-sub">15 min · 4 people</div></div>
+              <span class="t-state">Done</span>
+            </div>
+            <div class="task t-active">
+              <span class="t-time">11:00</span>
+              <div><div class="t-name">Deep work — launch deck</div><div class="t-sub">90 min · AI suggested</div></div>
+              <span class="t-state">Now</span>
+            </div>
+            <div class="task t-up">
+              <span class="t-time">14:30</span>
+              <div><div class="t-name">Product review</div><div class="t-sub">30 min · 3 topics</div></div>
+              <span class="t-state">Up next</span>
+            </div>
+            <div class="ai-card">
+              <span class="ai-tag">AI digest</span>
+              <p>Afternoon is clear. Block 90 minutes for the launch deck — notes from Tuesday's review are ready to merge.</p>
+            </div>
+            <div class="mock-foot">
+              <div class="ring">
+                <svg width="56" height="56" viewBox="0 0 56 56">
+                  <circle cx="28" cy="28" r="24" fill="none" stroke="#E4ECE4" stroke-width="5"/>
+                  <circle cx="28" cy="28" r="24" fill="none" stroke="#1E8F7B" stroke-width="5" stroke-linecap="round" stroke-dasharray="151" stroke-dashoffset="48"/>
+                </svg>
+                <span class="ring-txt">68%</span>
+              </div>
+              <div class="lbl">Focus time<br>protected today</div>
+            </div>
+          </div>
+        </div>
+        <div class="mock-float">
+          <span class="f-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2 19 19M19 5l-2.8 2.8M7.8 16.2 5 19"/><circle cx="12" cy="12" r="3.2"/></svg></span>
+          <div><div style="font-weight:600">AI re-planned</div><div style="font-size:11.5px;color:var(--ink-3)">2 conflicts resolved</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Logo strip ===== -->
+<div class="strip" aria-label="Fictional customer names">
+  <div class="wrap">
+    <span class="cap">Teams planning with Daymark</span>
+    <span class="lg">Nordwind</span>
+    <span class="lg">Atlas &amp; Co</span>
+    <span class="lg">Fern Studio</span>
+    <span class="lg">Lumio</span>
+    <span class="lg">Brickset</span>
+    <span class="lg">Otterly</span>
+  </div>
+</div>
+
+<!-- ===== Features ===== -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Features</span>
+      <h2>One quiet view of the day ahead</h2>
+      <p class="sec-intro">Daymark gathers everything and hands back a single, prioritised plan — the way a great assistant would.</p>
+    </div>
+    <div class="f-grid">
+      <div class="f-item">
+        <div class="f-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h7"/><circle cx="17" cy="18" r="3"/><path d="m15.5 18 .9.9 1.7-1.7"/></svg></div>
+        <h3>Daily AI digest</h3>
+        <p>Each morning, a plain-language summary of what changed, what matters and what to tackle first — no inbox scrolling required.</p>
+        <span class="demo-tag">Demo feature</span>
+      </div>
+      <div class="f-item">
+        <div class="f-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 4 12 2.5-6h5"/></svg></div>
+        <h3>Auto-prioritisation</h3>
+        <p>Deadlines, dependencies and meeting pressure are weighed automatically, so the important work rises to the top on its own.</p>
+        <span class="demo-tag">Demo feature</span>
+      </div>
+      <div class="f-item">
+        <div class="f-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 13h5"/></svg></div>
+        <h3>Meeting notes that land</h3>
+        <p>Recordings and notes are condensed into actions and decisions, then dropped into the right projects with owners attached.</p>
+        <span class="demo-tag">Demo feature</span>
+      </div>
+      <div class="f-item">
+        <div class="f-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M2.8 19c.8-3 3-4.6 6.2-4.6 2.6 0 4.4 1.2 5.4 3.4M21.4 19c-.4-2-1.6-3.3-3.4-3.7"/></svg></div>
+        <h3>Team sync without meetings</h3>
+        <p>Shared plans stay current for everyone. Status is visible by default — fewer check-ins, more momentum.</p>
+        <span class="demo-tag">Demo feature</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Process ===== -->
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="p-grid">
+      <div class="p-img">
+        <img src="assets/team.webp" alt="A small team planning together in a bright office (demo)" loading="lazy">
+      </div>
+      <div>
+        <div class="sec-head" style="margin-bottom:26px">
+          <span class="kicker">How it works</span>
+          <h2>From chaos to a plan in three steps</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">01</span>
+            <div>
+              <h3>Connect your tools</h3>
+              <p>Calendar, tasks, docs and messages link in minutes. Daymark reads everything — it never replaces your stack.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <div>
+              <h3>AI drafts the day</h3>
+              <p>Each morning a proposed plan appears: prioritised tasks, protected focus blocks and a plain-language digest.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <div>
+              <h3>Adjust, then go</h3>
+              <p>Drag, drop or say it out loud — the plan updates everywhere. The team sees the same calm view.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stat">
+      <b><span>40%</span></b>
+      <div class="lbl">less time spent planning and chasing status</div>
+      <span class="demo">Demo figure</span>
+    </div>
+    <div class="stat">
+      <b><span>12k</span></b>
+      <div class="lbl">teams start their day with Daymark</div>
+      <span class="demo">Demo figure</span>
+    </div>
+    <div class="stat">
+      <b><span>4.9</span>/5</b>
+      <div class="lbl">average rating from pilot users</div>
+      <span class="demo">Demo figure</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Pricing ===== -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="kicker">Pricing · demo</span>
+      <h2>Simple plans, honest demo prices</h2>
+      <p class="sec-intro" style="margin:0 auto">Illustrative pricing in USD — switch between monthly and yearly billing to try the interaction.</p>
+    </div>
+    <div class="center">
+      <div class="bill" role="group" aria-label="Billing period">
+        <button class="on" data-bill="monthly">Monthly</button>
+        <button data-bill="yearly">Yearly −20%</button>
+      </div>
+    </div>
+    <div class="p-grid2">
+      <div class="plan">
+        <div class="p-name">Starter</div>
+        <div class="p-desc">For individuals building a calmer routine.</div>
+        <div class="p-price"><b data-price="0">$0</b><span>forever</span></div>
+        <ul>
+          <li>Daily AI digest</li>
+          <li>3 active projects</li>
+          <li>Calendar &amp; task sync</li>
+          <li>One workspace</li>
+        </ul>
+        <button class="btn btn-out" data-cta="starter">Start free</button>
+      </div>
+      <div class="plan featured">
+        <div class="p-name">Pro</div>
+        <div class="p-desc">For teams that want the whole plan in one place.</div>
+        <div class="p-price"><b data-price="12">$12</b><span>per user / month</span></div>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Auto-prioritisation</li>
+          <li>Meeting notes &amp; actions</li>
+          <li>Unlimited projects</li>
+          <li>Team sync</li>
+        </ul>
+        <button class="btn btn-primary" data-cta="pro">Start 14-day demo trial</button>
+      </div>
+      <div class="plan">
+        <div class="p-name">Scale</div>
+        <div class="p-desc">For growing orgs with deeper needs.</div>
+        <div class="p-price"><b data-price="29">$29</b><span>per user / month</span></div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Priority AI processing</li>
+          <li>Advanced analytics</li>
+          <li>SSO &amp; admin controls</li>
+        </ul>
+        <button class="btn btn-out" data-cta="scale">Contact demo sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta">
+  <div class="band">
+    <img src="assets/shape.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="inner">
+      <span class="kicker" style="justify-content:center">Get started</span>
+      <h2>Start tomorrow with a clearer plan</h2>
+      <p>Leave your email and we'll send a demo invite — or just imagine how Tuesday feels with Daymark.</p>
+      <form class="sub-form" id="subForm" novalidate>
+        <input id="subEmail" type="email" placeholder="you@company.com" aria-label="Email address" required>
+        <button type="submit" class="btn btn-primary btn-lg">Request demo invite</button>
+      </form>
+      <p class="note">Demo form — no data is collected or stored anywhere.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="dot"></span>Daymark</div>
+        <p class="foot-copy">A fictional AI work planner used to demonstrate a responsive landing page build. No real product or service exists.</p>
+        <div class="demo-banner">This is a portfolio demonstration by TablePilot Studio. All product details, testimonials, figures and pricing are illustrative demo content.</div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#process">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#home" data-toast="Demo navigation — link goes to the hero">Changelog</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#home" data-toast="Demo navigation — no real company exists">About</a>
+        <a href="#home" data-toast="Demo navigation — contact is placeholder only">Contact</a>
+        <a href="#home" data-toast="Demo navigation — privacy is illustrative">Privacy</a>
+        <a href="#home" data-toast="Demo navigation — terms are illustrative">Terms</a>
+      </div>
+    </div>
+  </div>
+  <div class="maker">Landing page concept by <b>TablePilot Studio</b> · HTML / CSS / JS · Responsive demo</div>
+</footer>
+
+<script>
+/* ---------- toast ---------- */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+/* ---------- mobile menu ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+menuBtn.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', open);
+  menuBtn.textContent = open ? '✕' : '☰';
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+  menuBtn.textContent = '☰';
+}));
+
+/* ---------- scrollspy ---------- */
+const spy = ['home','features','process','pricing'];
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 120;
+  let cur = 'home';
+  spy.forEach(id => { const el = document.getElementById(id); if(el && el.offsetTop <= y) cur = id; });
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, {passive:true});
+
+/* ---------- generic CTA feedback ---------- */
+document.querySelectorAll('[data-cta]').forEach(b => b.addEventListener('click', () => {
+  showToast('Demo only — this is a fictional product. No sign-up happens.');
+}));
+document.querySelectorAll('[data-toast]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  showToast(a.dataset.toast);
+}));
+
+/* ---------- billing toggle ---------- */
+const PRICES = { monthly: {0:0, 12:12, 29:29}, yearly: {0:0, 12:10, 29:24} };
+let bill = 'monthly';
+document.querySelectorAll('.bill button').forEach(btn => btn.addEventListener('click', () => {
+  bill = btn.dataset.bill;
+  document.querySelectorAll('.bill button').forEach(b => b.classList.toggle('on', b === btn));
+  document.querySelectorAll('[data-price]').forEach(el => {
+    el.textContent = '$' + PRICES[bill][+el.dataset.price];
+  });
+  showToast('Billing switched to ' + (bill === 'monthly' ? 'monthly' : 'yearly (−20%)'));
+}));
+
+/* ---------- subscribe form ---------- */
+document.getElementById('subForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = document.getElementById('subEmail');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())){
+    input.style.borderColor = '#C4563F';
+    showToast('Please enter a valid email address.');
+    return;
+  }
+  input.style.borderColor = '';
+  input.value = '';
+  showToast('Demo invite requested — nothing was actually sent.');
+});
+</script>
+</body>
+</html>
